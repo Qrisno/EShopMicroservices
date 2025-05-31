@@ -12,6 +12,7 @@ public class CreateProductCommandHandler(IDocumentSession session): ICommandHand
         {
             Name = command.Product.Name,
             Description = command.Product.Description, 
+            Category = command.Product.Category,
             ImageFile = command.Product.ImageFile, 
             Price = command.Product.Price,
         };
