@@ -1,5 +1,6 @@
 
 
+using Catalog.Api.Exceptions;
 using Catalog.API.Models;
 using FastExpressionCompiler;
 
@@ -18,6 +19,6 @@ public class GetProductQueryHandler(IDocumentSession session): IQueryHandler<Get
             return new GetProductResult(res);
         }
 
-        return new GetProductResult(null);
+        throw new ProductNotFoundException(request.id);
     }
 }

@@ -1,4 +1,5 @@
 using BuildingBlocks.Behaviours;
+using BuildingBlocks.Exceptions.Handler;
 using Catalog.API.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,7 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader();
     });
 });
-
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 builder.Services.AddMarten(opts =>
 {
     opts.Connection(builder.Configuration.GetConnectionString("CatalogDB"));
@@ -24,11 +25,14 @@ builder.Services.AddMediatR(config =>
 });
 builder.Services.AddValidatorsFromAssembly(assembly);
 builder.Services.AddCarter();
+
 var app = builder.Build();
 app.UseCors();
 
 app.MapGet("/", () => "Hello World!");
 
 app.MapCarter();
+
+app.UseExceptionHandler(options=>{});
 
 app.Run();

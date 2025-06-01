@@ -1,3 +1,5 @@
+using BuildingBlocks.Exceptions;
+using Catalog.Api.Exceptions;
 using Catalog.API.Models;
 
 namespace Catalog.Api.Products.GetProductByCategory;
@@ -9,13 +11,13 @@ public class GetProductByCategoryQueryHandler(IDocumentSession session): IQueryH
     public async Task<GetProductByCategoryResult> Handle(GetProductByCategoryQuery request, CancellationToken cancellationToken)
     {
         var products = await session.Query<Product>().ToListAsync(cancellationToken);
-        if (products.Count == 0)
-        {
-            return new GetProductByCategoryResult(null);
-        }
         
-        var filteredProducts = products.Where(x => x.Category.Contains(request.category));
+        var filteredProducts = products.Where(x => x.Category.Contains(request.category)).ToList();
 
+        if (filteredProducts.Count == 0)
+        {
+            throw new NotFoundException("Product with category",request.category);
+        }
         return new GetProductByCategoryResult(filteredProducts);
     }
 }
