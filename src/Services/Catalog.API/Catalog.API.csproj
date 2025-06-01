@@ -9,6 +9,10 @@
       <PackageReference Include="Marten" Version="7.40.5" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Products\DeleteProduct\" />
+    </ItemGroup>
+
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
