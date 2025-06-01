@@ -6,6 +6,20 @@ public record DeleteCommand(string id): ICommand<DeleteCommandResponse>;
 
 public record DeleteCommandResponse(string message);
 
+public class DeleteCommandValidator : AbstractValidator<DeleteCommand>
+{
+    public DeleteCommandValidator()
+    {
+        RuleFor(x => x.id).NotEmpty().Must(BeValidGuid).WithMessage("ID must be a valid GUID format");
+
+    }
+
+    private bool BeValidGuid(string id)
+    {
+        return Guid.TryParse(id, out _);
+    }
+}
+
 
 public class DeleteCommandHandler(IDocumentSession session): ICommandHandler<DeleteCommand, DeleteCommandResponse>
 {
