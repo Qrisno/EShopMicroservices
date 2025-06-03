@@ -1,6 +1,6 @@
 ﻿services:
   catalogdb:
-    image: postgres
+    image: postgres:latest
     container_name: catalog-db
     environment:
       - POSTGRES_USER=postgres
@@ -19,12 +19,15 @@
     container_name: catalog-api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__CatalogDB=Host=catalogdb;Port=5432;Database=CatalogDb;Username=postgres;Password=postgres
+      - ASPNETCORE_HTTP_PORTS = 8080
+      - ASPNETCORE_HTTPS_PORTS = 8081
+      - ConnectionStrings__CatalogDB=Server=catalogdb;Database=CatalogDb;Port=5432;TrustServerCertificate=True;User Id=postgres;Password=postgres;
     ports:
-      - "8080:80"
+      - "6000:8080"
+      - "6060:8081"
     depends_on:
       - catalogdb
     restart: on-failure
 
 volumes:
-  postgres_catalog:
+  postgres_catalog:  # This defines a named volume for PostgreSQL data persistence
