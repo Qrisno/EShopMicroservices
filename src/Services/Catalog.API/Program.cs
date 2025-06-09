@@ -25,7 +25,7 @@ if (builder.Environment.IsDevelopment())
 {
     builder.Services.InitializeMartenWith<CatalogInitialData>();
 }
-var assembly = typeof(Product).Assembly;
+var assembly = typeof(Program).Assembly;
 builder.Services.AddMediatR(config =>
 {
     config.RegisterServicesFromAssembly(assembly);
