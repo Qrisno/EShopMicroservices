@@ -27,12 +27,12 @@
   catalog.api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./Services/Catalog.API/Dockerfile
     container_name: catalog-api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS = 8080
-      - ASPNETCORE_HTTPS_PORTS = 8081
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
       - ConnectionStrings__CatalogDB=Server=catalogdb;Database=CatalogDb;Port=5432;TrustServerCertificate=True;User Id=postgres;Password=postgres;
     ports:
       - "6000:8080"
@@ -44,19 +44,20 @@
   basket.api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./Services/Basket.API/Dockerfile
     container_name: basket-api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS = 8080
-      - ASPNETCORE_HTTPS_PORTS = 8081
+      - ASPNETCORE_HTTP_PORTS=8082
+      - ASPNETCORE_HTTPS_PORTS=8083
       - ConnectionStrings__BasketDB=Server=basketdb;Database=BasketDb;Port=5432;TrustServerCertificate=True;User Id=postgres;Password=postgres;
     ports:
-      - "6001:8080"
-      - "6061:8081"
+      - "6001:8082"
+      - "6061:8083"
     depends_on:
       - basketdb
     restart: on-failure
 
 volumes:
   postgres_catalog:  # This defines a named volume for PostgreSQL data persistence
+  postgres_basket:  # This defines a named volume for PostgreSQL data persistence

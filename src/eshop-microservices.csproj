@@ -8,24 +8,18 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
-    <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Services\Basket.API\appsettings.Development.json" />
-      <_ContentIncludedByDefault Remove="Services\Basket.API\appsettings.json" />
-      <_ContentIncludedByDefault Remove="Services\Basket.API\obj\Basket.API.csproj.nuget.dgspec.json" />
-      <_ContentIncludedByDefault Remove="Services\Basket.API\obj\project.assets.json" />
-      <_ContentIncludedByDefault Remove="Services\Basket.API\obj\project.packagespec.json" />
-      <_ContentIncludedByDefault Remove="Services\Basket.API\Properties\launchSettings.json" />
-      <_ContentIncludedByDefault Remove="Services\Basket.API\Basket.API\appsettings.Development.json" />
-      <_ContentIncludedByDefault Remove="Services\Basket.API\Basket.API\appsettings.json" />
-      <_ContentIncludedByDefault Remove="Services\Basket.API\Basket.API\obj\Basket.API.csproj.nuget.dgspec.json" />
-      <_ContentIncludedByDefault Remove="Services\Basket.API\Basket.API\obj\project.assets.json" />
-      <_ContentIncludedByDefault Remove="Services\Basket.API\Basket.API\obj\project.packagespec.json" />
-      <_ContentIncludedByDefault Remove="Services\Basket.API\Basket.API\Properties\launchSettings.json" />
-    </ItemGroup>
+<!--    <ItemGroup>-->
+<!--      <_ContentIncludedByDefault Remove="Services\Basket.API\appsettings.Development.json" />-->
+<!--      <_ContentIncludedByDefault Remove="Services\Basket.API\appsettings.json" />-->
+<!--      <_ContentIncludedByDefault Remove="Services\Basket.API\obj\Basket.API.csproj.nuget.dgspec.json" />-->
+<!--      <_ContentIncludedByDefault Remove="Services\Basket.API\obj\project.assets.json" />-->
+<!--      <_ContentIncludedByDefault Remove="Services\Basket.API\obj\project.packagespec.json" />-->
+<!--      <_ContentIncludedByDefault Remove="Services\Basket.API\Properties\launchSettings.json" />-->
+<!--      <_ContentIncludedByDefault Remove="Services\Basket.API\Basket.API\appsettings.Development.json" />-->
+<!--      <_ContentIncludedByDefault Remove="Services\Basket.API\Basket.API\appsettings.json" />-->
+<!--      <_ContentIncludedByDefault Remove="Services\Basket.API\Basket.API\obj\Basket.API.csproj.nuget.dgspec.json" />-->
+<!--      <_ContentIncludedByDefault Remove="Services\Basket.API\Basket.API\obj\project.assets.json" />-->
+<!--      <_ContentIncludedByDefault Remove="Services\Basket.API\Basket.API\obj\project.packagespec.json" />-->
+<!--      <_ContentIncludedByDefault Remove="Services\Basket.API\Basket.API\Properties\launchSettings.json" />-->
+<!--    </ItemGroup>-->
 </Project>
