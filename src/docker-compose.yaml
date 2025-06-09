@@ -11,6 +11,18 @@
     volumes:
       - postgres_catalog:/var/lib/postgresql/data
     restart: always
+  basketdb:
+    image: postgres:latest
+    container_name: basket-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=BasketDb
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_basket:/var/lib/postgresql/data
+    restart: always
 
   catalog.api:
     build:
@@ -27,6 +39,23 @@
       - "6060:8081"
     depends_on:
       - catalogdb
+    restart: on-failure
+    
+  basket.api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: basket-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS = 8080
+      - ASPNETCORE_HTTPS_PORTS = 8081
+      - ConnectionStrings__BasketDB=Server=basketdb;Database=BasketDb;Port=5432;TrustServerCertificate=True;User Id=postgres;Password=postgres;
+    ports:
+      - "6001:8080"
+      - "6061:8081"
+    depends_on:
+      - basketdb
     restart: on-failure
 
 volumes:
