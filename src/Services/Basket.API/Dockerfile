@@ -20,6 +20,8 @@ RUN dotnet publish "./Services/Basket.API/Basket.API.csproj" -c $BUILD_CONFIGURA
 
 FROM base AS final
 WORKDIR /app
+ENV ASPNETCORE_URLS=http://+:8082
+ENV ASPNETCORE_ENVIRONMENT=Production
 COPY --from=publish /app/publish .
 RUN echo "Contents of /app:" && ls -al /app
 ENTRYPOINT ["dotnet", "Basket.API.dll"]

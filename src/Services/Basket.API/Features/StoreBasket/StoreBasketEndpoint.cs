@@ -18,7 +18,7 @@ public class StoreBasketEndpoint: ICarterModule
                 var command = req.Adapt<StoreBasketCommand>();
                 var storeBasket  = await sender.Send(command);
 
-                var res = storeBasket.Adapt<StoreBasketResponse>();
+                var res = new StoreBasketResponse(storeBasket.cart.UserName);
                 return Results.Ok(res);
             }).Produces<ShoppingCart>()
             .ProducesProblem(StatusCodes.Status404NotFound)

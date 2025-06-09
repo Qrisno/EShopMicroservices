@@ -20,6 +20,8 @@ RUN dotnet publish "./Services/Catalog.API/Catalog.API.csproj" -c $BUILD_CONFIGU
 
 FROM base AS final
 WORKDIR /app
+ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_ENVIRONMENT=Production
 COPY --from=publish /app/publish .
 RUN echo "Contents of /app:" && ls -al /app
 ENTRYPOINT ["dotnet", "Catalog.API.dll"]

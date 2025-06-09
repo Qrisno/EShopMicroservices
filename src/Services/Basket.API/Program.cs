@@ -1,5 +1,8 @@
+using Basket.API.Data;
 using Basket.API.Models;
 using BuildingBlocks.Behaviours;
+using BuildingBlocks.Exceptions.Handler;
+using Carter;
 using Marten;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +17,8 @@ builder.Services.AddCors(options =>
     });
 });
 builder.Services.AddOpenApi();
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+builder.Services.AddCarter();
 builder.Services.AddMarten(opts =>
 {
     opts.Connection(builder.Configuration.GetConnectionString("BasketDb"));
@@ -25,6 +30,7 @@ builder.Services.AddMediatR(config =>
     config.AddOpenBehavior(typeof(ValidationBehaviour<,>));
     config.AddOpenBehavior(typeof(LoggingBehaviour<,>));
 });
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,6 +39,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.MapCarter();
+app.UseExceptionHandler(opts => { });
 app.UseHttpsRedirection();
 
 
