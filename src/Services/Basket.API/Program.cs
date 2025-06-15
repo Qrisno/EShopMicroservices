@@ -4,6 +4,7 @@ using BuildingBlocks.Behaviours;
 using BuildingBlocks.Exceptions.Handler;
 using Carter;
 using Marten;
+using Microsoft.Extensions.Caching.Distributed;
 
 var builder = WebApplication.CreateBuilder(args);
 var assembly = typeof(Program).Assembly;
@@ -18,6 +19,11 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+builder.Services.Decorate<IBasketRepository, CachedBasketRepository>();
+builder.Services.AddStackExchangeRedisCache(opts =>
+{
+    opts.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
 builder.Services.AddCarter();
 builder.Services.AddMarten(opts =>
 {
