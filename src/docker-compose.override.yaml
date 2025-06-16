@@ -23,3 +23,10 @@ services:
     depends_on:
       - catalogdb
     restart: on-failure
+  
+  distributedcache:
+    container_name: distributedcache
+    restart: always
+    ports:
+      - "6379:6379"
+    

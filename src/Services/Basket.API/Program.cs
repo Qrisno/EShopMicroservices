@@ -37,6 +37,8 @@ builder.Services.AddMediatR(config =>
     config.AddOpenBehavior(typeof(LoggingBehaviour<,>));
 });
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+builder.Services.AddHealthChecks().AddNpgSql(builder.Configuration.GetConnectionString("BasketDb")!)
+    .AddRedis(builder.Configuration.GetConnectionString("Redis")!);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -47,6 +49,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapCarter();
 app.UseExceptionHandler(opts => { });
+app.UseHealthChecks("/health");
 app.UseHttpsRedirection();
 
 

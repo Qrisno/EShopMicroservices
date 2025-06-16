@@ -1,3 +1,4 @@
+using Basket.API.Data;
 using Basket.API.Models;
 using BuildingBlocks.CQRS;
 using FluentValidation;
@@ -19,14 +20,13 @@ public class StoreBasketCommandValidator : AbstractValidator<StoreBasketCommand>
             .WithMessage("Username must be 3–20 characters, start with a letter, and can include letters, numbers, underscores, or dots, but not consecutively or at the end.");
     }
 }
-public class StoreBasketHandler(IDocumentSession session): ICommandHandler<StoreBasketCommand, StoreBasketResult>
+public class StoreBasketHandler(IBasketRepository repo): ICommandHandler<StoreBasketCommand, StoreBasketResult>
 {
     public async Task<StoreBasketResult> Handle(StoreBasketCommand request, CancellationToken cancellationToken)
     {
         var cart = new ShoppingCart(request.cart.UserName);
         cart.Items.AddRange(request.cart.Items);
-        session.Store(cart);
-        await session.SaveChangesAsync(cancellationToken);
+        await repo.StoreBasket(cart, cancellationToken);
         return new StoreBasketResult(cart);
     }
 }

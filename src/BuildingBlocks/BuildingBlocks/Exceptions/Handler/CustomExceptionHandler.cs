@@ -12,21 +12,31 @@ public class CustomExceptionHandler(ILogger<CustomExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext context, Exception exception, CancellationToken cancellationToken)
     {
-        logger.LogError($"Error Message: {exception.Message} Time: {DateTime.Now}");
-        (string Detial, string Title, int StatusCode) details = exception switch
+        logger.LogError($"Error Message: {exception.GetType().FullName} Time: {DateTime.Now}");
+         string Title = "Internal Server Error"; 
+         int StatusCode = StatusCodes.Status500InternalServerError;
+        var Detail = exception.Message;
+        if (exception.GetType().IsSubclassOf(typeof(NotFoundException))
+           )
         {
-            NotFoundException => (exception.Message, "Not Found", StatusCodes.Status404NotFound),
-            BadRequestException => (exception.Message, "Bad Request", StatusCodes.Status400BadRequest),
-            ValidationException => (exception.Message, "Bad Request", StatusCodes.Status400BadRequest),
-            InvalidServerException => (exception.Message, "Server Error", StatusCodes.Status500InternalServerError),
-            _ => (exception.Message, "Internal Server Error", StatusCodes.Status500InternalServerError)
-        };
+
+            Title = "Not Found";
+            StatusCode = StatusCodes.Status404NotFound;
+        } else if (exception is BadRequestException || exception is ValidationException)
+        {
+
+            Title = "Bad Request";
+            StatusCode = StatusCodes.Status400BadRequest;
+        }else if (exception is InvalidServerException)
+        {
+            Title = "Server Error";
+        }
 
         var problemDetails = new ProblemDetails
         {
-            Title = details.Title,
-            Detail = details.Detial,
-            Status = details.StatusCode,
+            Title = Title,
+            Detail = Detail,
+            Status = StatusCode,
             Instance = context.Request.Path,
         };
         
