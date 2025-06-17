@@ -3,6 +3,7 @@ using Basket.API.Models;
 using BuildingBlocks.Behaviours;
 using BuildingBlocks.Exceptions.Handler;
 using Carter;
+using Discount.Grpc;
 using Marten;
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -20,6 +21,11 @@ builder.Services.AddCors(options =>
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 builder.Services.Decorate<IBasketRepository, CachedBasketRepository>();
+
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(opts =>
+{
+    opts.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
+});
 builder.Services.AddStackExchangeRedisCache(opts =>
 {
     opts.Configuration = builder.Configuration.GetConnectionString("Redis");
