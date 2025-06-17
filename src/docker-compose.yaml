@@ -64,7 +64,23 @@
       - basketdb
       - distributedcache
     restart: on-failure
+  discount.grpc:
+    image: discount.grpc
+    build:
+      context: .
+      dockerfile: ./Services/Discount.Grpc/Discount.Grpc/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ConnectionStrings__Database=Data Source=/app/discountdb
+    ports:
+      - "6002:8080"
+      - "6062:8081"
+    volumes:
+      - discount_data:/app/
+
 
 volumes:
   postgres_catalog:  # This defines a named volume for PostgreSQL data persistence
   postgres_basket:  # This defines a named volume for PostgreSQL data persistence
+  discount_data:  # This defines a named volume for PostgreSQL data persistence
