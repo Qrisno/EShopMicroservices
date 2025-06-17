@@ -23,7 +23,7 @@
     
     <ItemGroup>
       <Folder Include="Repos\" />
-        <ProtoBuf Include="Protos/discount.proto" GrpcServices="Client"></ProtoBuf>
+        <ProtoBuf Include="Protos/discount.proto" GrpcServices="Client"/>
     </ItemGroup>
 
 </Project>
