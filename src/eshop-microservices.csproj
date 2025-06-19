@@ -8,6 +8,10 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Services\Ordering\" />
+    </ItemGroup>
+
 <!--    <ItemGroup>-->
 <!--      <_ContentIncludedByDefault Remove="Services\Basket.API\appsettings.Development.json" />-->
 <!--      <_ContentIncludedByDefault Remove="Services\Basket.API\appsettings.json" />-->
