@@ -1,10 +1,13 @@
+
+
 namespace Ordering.Domain.Models;
 
 public class Order: Aggregate<OrderId>
 {
     public CustomerId CustomerId { get; private set; }
     public OrderName OrderName { get; private set; }
-    public IReadOnlyList<OrderItem> OrderItems { get; private set; }
+    public IReadOnlyList<OrderItem> OrderItems => _orderItems.AsReadOnly();
+    private List<OrderItem> _orderItems = new();
     
     public decimal TotalAmount
     {
@@ -25,14 +28,54 @@ public class Order: Aggregate<OrderId>
         ArgumentNullException.ThrowIfNull(billingAddress);
         ArgumentNullException.ThrowIfNull(orderItems);
         ArgumentOutOfRangeException.ThrowIfGreaterThan(orderItems.Count, 0);
-        
-        return new Order
+        var order = new Order
         {
             CustomerId = customerId,
             OrderName = orderName,
-            OrderItems = orderItems,
             DeliveryAddress = deliveryAddress,
             BillingAddress = billingAddress
         };
+        order._orderItems.AddRange(orderItems);
+        order.AddDomainEvent(new OrderCreatedEvent(order));
+        return order;
+    }
+
+    public void Update(OrderName name, Address deliveryAddress, Address billingAddress, Payment payment,
+        OrderStatus status)
+    {
+        OrderName = name;
+        DeliveryAddress = deliveryAddress;
+        BillingAddress = billingAddress;
+        Payment = payment;
+        Status = status;
+        
+        AddDomainEvent(
+            new OrderUpdatedEvent(this));
+    }
+
+    public void Add(OrderId orderId,ProductId prodId, int quantity, decimal price)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(quantity);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(price);
+        var newOrderItem = OrderItem.Create(orderId,prodId, price,quantity);
+        _orderItems.Add(newOrderItem);
+    }
+
+    public void Remove(OrderItemId id)
+    {
+        var itemFoundInOrders = _orderItems.First(x => x.Id == id);
+        if (itemFoundInOrders == null)
+        {
+            throw new DomainException("Order item not found");
+        }
+        _orderItems.Remove(itemFoundInOrders);
+    }
+}
+
+public class OrderCreatedEvent : IDomainEvent
+{
+    public OrderCreatedEvent(Order order)
+    {
+        throw new NotImplementedException();
     }
 }
