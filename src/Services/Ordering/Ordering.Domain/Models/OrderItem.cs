@@ -4,8 +4,27 @@ namespace Ordering.Domain.Models;
 
 public class OrderItem: Entity<OrderItemId>
 {
-    public OrderId OrderId { get; set; }
-    public ProductId ProductId { get; set; }
-    public decimal Price { get; set; }
-    public int Quantity { get; set; }
+    public OrderId OrderId { get; private set; }
+    public ProductId ProductId { get; private set; }
+    public decimal Price { get; private set; }
+    public int Quantity { get; private set; }
+
+    public static OrderItem Create(OrderItemId id, OrderId orderId, ProductId productId, decimal price, int quantity)
+    {
+        ArgumentNullException.ThrowIfNull(orderId);
+        ArgumentNullException.ThrowIfNull(productId);
+        ArgumentOutOfRangeException.ThrowIfLessThan(quantity, 1);
+        if (price <= 0)
+            throw new DomainException("Price cannot be less than or equal to zero");
+        
+        return new OrderItem
+        {
+            Id = id,
+            OrderId = orderId,
+            ProductId = productId,
+            Price = price,
+            Quantity = quantity
+        };
+    }
+    
 }
