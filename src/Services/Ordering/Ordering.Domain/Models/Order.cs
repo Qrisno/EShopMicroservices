@@ -2,10 +2,10 @@
 
 namespace Ordering.Domain.Models;
 
-public class Order: Aggregate<Guid>
+public class Order: Aggregate<OrderId>
 {
-    public Guid CustomerId { get; set; }
-    public string OrderName { get; set; }
+    public CustomerId CustomerId { get; set; }
+    public OrderName OrderName { get; set; }
     public IReadOnlyList<OrderItem> OrderItems { get; }
     
     public decimal TotalAmount

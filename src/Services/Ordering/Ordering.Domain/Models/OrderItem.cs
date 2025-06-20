@@ -2,10 +2,10 @@
 
 namespace Ordering.Domain.Models;
 
-public class OrderItem: Entity<Guid>
+public class OrderItem: Entity<OrderItemId>
 {
-    public Guid OrderId { get; set; }
-    public Guid ProductId { get; set; }
+    public OrderItemId OrderId { get; set; }
+    public ProductId ProductId { get; set; }
     public decimal Price { get; set; }
     public int Quantity { get; set; }
 }
