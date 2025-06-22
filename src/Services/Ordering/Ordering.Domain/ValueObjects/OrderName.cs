@@ -6,6 +6,7 @@ public class OrderName
     public string Value { get; } = string.Empty;
     private OrderName(string value) => Value = value;
 
+    private OrderName() { }
     public static OrderName Of(string name)
     {
         ArgumentException.ThrowIfNullOrEmpty(name);

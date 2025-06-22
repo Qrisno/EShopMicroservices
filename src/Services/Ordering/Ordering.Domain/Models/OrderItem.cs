@@ -9,6 +9,11 @@ public class OrderItem: Entity<OrderItemId>
     public decimal Price { get; private set; }
     public int Quantity { get; private set; }
 
+    private OrderItem()
+    {
+        
+    }
+
     public static OrderItem Create(OrderId orderId, ProductId productId, decimal price, int quantity)
     {
         ArgumentNullException.ThrowIfNull(orderId);

@@ -9,16 +9,17 @@ public class Order: Aggregate<OrderId>
     public IReadOnlyList<OrderItem> OrderItems => _orderItems.AsReadOnly();
     private List<OrderItem> _orderItems = new();
     
-    public decimal TotalAmount
-    {
-        get => OrderItems.Sum(x => x.Price * x.Quantity);
-    }
+    public decimal TotalAmount => OrderItems.Sum(x => x.Price * x.Quantity);
 
     public Address DeliveryAddress { get;private set; }
     public Address BillingAddress { get; private set; }
     public Payment Payment { get; private set; } = default;
     public OrderStatus Status { get;private  set; } = OrderStatus.Pending;
 
+    private Order()
+    {
+        
+    }
     public static Order Create(CustomerId customerId, OrderName orderName, IReadOnlyList<OrderItem> orderItems,
         Address deliveryAddress, Address billingAddress)
     {

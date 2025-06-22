@@ -6,6 +6,7 @@ public class Product: Entity<ProductId>
 {
     public string Name { get; private set; } = string.Empty;
     public decimal Price { get; private set; }
+    private Product(){}
 
     public static Product Create(string name, decimal price)
     {

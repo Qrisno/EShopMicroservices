@@ -9,6 +9,7 @@ public record Payment
     public string ExpiryDate { get;  } = string.Empty;
     public string CVV { get;  } = string.Empty;
     public string PaymentMethod { get;  } = string.Empty;
+    private Payment() { }
 
     private Payment(string cardNumber, string cardHolderName, string expiryDate, string cvv, string paymentMethod)
     {

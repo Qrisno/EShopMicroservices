@@ -11,6 +11,10 @@ public record Address
     public string Country { get; set; }= string.Empty;
     public string ZipCode { get; set; }= string.Empty;
 
+    private Address()
+    {
+        
+    }
     private Address(string firstName, string lastName, string email, string addressLine,
         string city, string state, string country, string zipcode)
     {
