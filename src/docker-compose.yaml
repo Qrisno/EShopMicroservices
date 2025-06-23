@@ -28,7 +28,19 @@
     image: redis
     ports:
       - "6379:6379"
+  
+  orderdb:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    container_name: orderdb
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=sheeps100
+    restart: always
+    ports:
+      - "1433:1433"
+        
 
+    
   catalog.api:
     build:
       context: .
@@ -79,8 +91,26 @@
     volumes:
       - discount_data:/app/
 
-
+  ordering.api:
+    build:
+      context: .
+      dockerfile: ./Services/Ordering/Ordering.API/Dockerfile
+    container_name: ordering-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8084
+      - ASPNETCORE_HTTPS_PORTS=8085
+      - ConnectionStrings__Database=Server=localhost,1433;Database=master;User Id=SA;Password=sheeps100;TrustServerCertificate=True;
+    ports:
+      - "6003:8084"
+      - "6063:8085"
+    depends_on:
+      - orderdb
+    restart: on-failure
+    volumes:
+      - order_data:/app/
 volumes:
   postgres_catalog:  # This defines a named volume for PostgreSQL data persistence
   postgres_basket:  # This defines a named volume for PostgreSQL data persistence
   discount_data:  # This defines a named volume for PostgreSQL data persistence
+  order_data:
