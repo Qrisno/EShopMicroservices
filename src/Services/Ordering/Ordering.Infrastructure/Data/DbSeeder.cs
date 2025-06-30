@@ -31,17 +31,8 @@ public static class DbSeeder
             10.99m
         );
 
-        var product2 = Product.Create(
-            "Product 2",
-            24.99m
-        );
-
-        var product3 = Product.Create(
-            "Product 3",
-            5.99m
-        );
-
-        await context.Products.AddRangeAsync(product1, product2, product3);
+        product1.Id = ProductId.Of(Guid.NewGuid());
+        await context.Products.AddRangeAsync(product1);
 
         // Create delivery and billing addresses
         var address1 = Address.Of(
@@ -58,13 +49,12 @@ public static class DbSeeder
         var order1Items = new List<OrderItem>
         {
             OrderItem.Create(OrderId.Of(Guid.NewGuid()), product1.Id, product1.Price, 2),
-            OrderItem.Create(OrderId.Of(Guid.NewGuid()), product2.Id, product2.Price, 1)
+         
         };
 
         var order2Items = new List<OrderItem>
         {
-            OrderItem.Create(OrderId.Of(Guid.NewGuid()), product2.Id, product2.Price, 3),
-            OrderItem.Create(OrderId.Of(Guid.NewGuid()), product3.Id, product3.Price, 2)
+            OrderItem.Create(OrderId.Of(Guid.NewGuid()), product1.Id, product1.Price, 2),
         };
 
         // Create orders

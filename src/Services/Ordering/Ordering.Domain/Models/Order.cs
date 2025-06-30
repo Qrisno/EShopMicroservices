@@ -13,7 +13,7 @@ public class Order: Aggregate<OrderId>
 
     public Address DeliveryAddress { get;private set; }
     public Address BillingAddress { get; private set; }
-    public Payment Payment { get; private set; } = default;
+    public Payment Payment { get; private set; } 
     public OrderStatus Status { get;private  set; } = OrderStatus.Pending;
 
     private Order()
@@ -28,7 +28,6 @@ public class Order: Aggregate<OrderId>
         ArgumentNullException.ThrowIfNull(deliveryAddress);
         ArgumentNullException.ThrowIfNull(billingAddress);
         ArgumentNullException.ThrowIfNull(orderItems);
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(orderItems.Count, 0);
         var order = new Order
         {
             CustomerId = customerId,

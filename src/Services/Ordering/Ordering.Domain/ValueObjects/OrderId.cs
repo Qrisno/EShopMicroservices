@@ -7,7 +7,6 @@ public record OrderId
     private OrderId() { }
     public static OrderId Of(Guid value)
     {
-        ArgumentNullException.ThrowIfNull(value);
 
         if (value == Guid.Empty)
         {

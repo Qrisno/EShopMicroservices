@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Ordering.Application.Abstractions;
 using Ordering.Infrastructure.Data;
 using Ordering.Infrastructure.Data.Interceptors;
 
@@ -18,6 +19,7 @@ public static class DependencyInjection
             opts.AddInterceptors(new AuditableEntityInterceptor());
             opts.UseSqlServer(connectionString, b=> b.MigrationsAssembly("Ordering.API"));
         });
+        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
         return services;
     }
     

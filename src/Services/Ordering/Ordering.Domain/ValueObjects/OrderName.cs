@@ -2,7 +2,7 @@ namespace Ordering.Domain.ValueObjects;
 
 public class OrderName
 {
-    private const int MAX_LENGTH = 50;
+    private const int MaxLength = 50;
     public string Value { get; } = string.Empty;
     private OrderName(string value) => Value = value;
 
@@ -10,7 +10,7 @@ public class OrderName
     public static OrderName Of(string name)
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(name.Length, MAX_LENGTH);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(name.Length, MaxLength);
         if(name == string.Empty)
             throw new DomainException("Order Name cannot be empty");
 
